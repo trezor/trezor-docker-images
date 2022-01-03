@@ -13,7 +13,7 @@ RUN wget https://github.com/vdovhanych/blockbook/releases/download/v0.3.5/backen
   && dpkg -i backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb \
   && rm backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb
 
-COPY ./bitcoind/entrypoint.sh ./entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
 ENTRYPOINT [ "./entrypoint.sh" ]
