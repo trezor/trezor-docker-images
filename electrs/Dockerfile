@@ -23,7 +23,6 @@ COPY --from=builder /usr/local/cargo/bin/electrs /bin/electrs
 
 COPY config.toml /etc/electrs/config.toml
 COPY entrypoint.sh entrypoint.sh
-RUN chmod a+x entrypoint.sh
 
 # Electrum port
 EXPOSE 50001 
