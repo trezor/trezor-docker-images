@@ -1,4 +1,4 @@
 auth="rpc:rpc"
-daemon_rpc_addr = "127.0.0.1:18021"
-daemon_p2p_addr = "127.0.0.1:18021"
-electrum_rpc_addr = "127.0.0.1:50001"
+daemon_rpc_addr = "0.0.0.0:18021"
+daemon_p2p_addr = "0.0.0.0:18021"
+electrum_rpc_addr = "0.0.0.0:50001"

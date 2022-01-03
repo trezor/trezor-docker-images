@@ -1,15 +1,5 @@
 #!/bin/bash
 set -e
 
-# start bitcoin backend
-cd /opt/coins/nodes/bitcoin_regtest
-
-echo "Starting bitcoin regtest backend service"
-bin/bitcoind -blockfilterindex -datadir=/opt/coins/data/bitcoin_regtest/backend -conf=/opt/coins/nodes/bitcoin_regtest/bitcoin_regtest.conf
-
-sleep 5
-
-# generate test wallet and blocks
-bin/bitcoin-cli -rpcport=18021 -rpcuser=rpc -rpcpassword=rpc createwallet "tenv-wallet"
-bin/bitcoin-cli -rpcport=18021 -rpcuser=rpc -rpcpassword=rpc -generate 150
-bin/bitcoin-cli -rpcport=18021 -rpcuser=rpc -rpcpassword=rpc settxfee 0.00001
+echo -e "Starting bitcoin node."
+/root/bitcoind -regtest -server -fallbackfee=0.0002 -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0 -rpcport=18021 -rpcuser=rpc -rpcpassword=rpc -blockfilterindex=1 -peerblockfilters=1 

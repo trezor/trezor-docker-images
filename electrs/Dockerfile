@@ -1,32 +1,31 @@
-ARG VERSION=v0.9.1
+FROM debian:buster-slim as builder
 
-FROM rust:1.41.1-slim AS builder
+WORKDIR /root
 
-ARG VERSION
+# install electrs
 
-WORKDIR /build
+RUN apt-get update && \
+    apt-get install git build-essential libtool autotools-dev automake pkg-config \
+    bsdmainutils python3 -y && \
+    apt-get install -y wget software-properties-common apt-transport-https && \
+    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
+    apt-add-repository "deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main" && \
+    apt-get update && \
+    apt-get install -y libllvm10 clang-10 libclang-common-10-dev curl cargo
 
-RUN apt-get update
-RUN apt-get install -y git clang cmake libsnappy-dev wget
+RUN cargo install --git https://github.com/romanz/electrs --tag v0.9.4 --bin electrs
 
-RUN git clone --branch $VERSION https://github.com/romanz/electrs .
+FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
-RUN cargo install --locked --path .
+COPY --from=builder /root/.cargo/bin/electrs /root
 
-FROM debian:buster-slim
+RUN chmod a+rx /root
+RUN chmod a+rx /root/electrs
 
-RUN useradd -rG sudo electrs
-USER electrs
+EXPOSE 18021 60401
 
-WORKDIR /data
-COPY --from=builder /usr/local/cargo/bin/electrs /bin/electrs
+ADD config.toml /etc/electrs/config.toml
+ADD entrypoint.sh /root/entrypoint.sh
+RUN chmod a+x /root/entrypoint.sh
 
-COPY config.toml /etc/electrs/config.toml
-COPY entrypoint.sh entrypoint.sh
-
-# Electrum port
-EXPOSE 50001 
-
-STOPSIGNAL SIGINT
-
-ENTRYPOINT ["electrs"]
+CMD ["/root/entrypoint.sh"]

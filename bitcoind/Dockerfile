@@ -1,19 +1,43 @@
+FROM debian:buster-slim as builder
+
+WORKDIR /root
+
+ENV BITCOIN_REPO=https://github.com/bitcoin/bitcoin.git
+ENV BITCOIN_BRANCH=master
+ENV BITCOIN_TAG=v22.0
+
+RUN apt-get update && \
+    apt-get install git build-essential libtool autotools-dev automake pkg-config \
+    bsdmainutils python3 -y && \
+    apt-get install libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev \
+    libboost-thread-dev libdb-dev libdb++-dev -y && \
+    apt-get install libsqlite3-dev && \
+    git clone $BITCOIN_REPO --branch $BITCOIN_BRANCH --single-branch
+
+RUN (cd bitcoin && git fetch --all --tags --prune && git checkout tags/$BITCOIN_TAG && \
+      ./autogen.sh && \
+      ./configure --disable-tests \
+      --disable-bench --disable-static  \
+      --without-gui --disable-zmq \
+      --with-incompatible-bdb \
+      CFLAGS='-w' CXXFLAGS='-w' && \
+      make -j 4 && \
+      strip src/bitcoind && \
+      strip src/bitcoin-cli && \
+      strip src/bitcoin-tx )
+
 FROM debian:buster-slim
 
-RUN useradd -rG sudo bitcoin \
-  && apt-get update -y \
-  && apt-get install -y curl wget gnupg gosu logrotate libsnappy-dev libgflags2.2 libzmq3-dev procps\
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev \
+    libboost-thread-dev libdb-dev libdb++-dev curl build-essential
 
-# Fetching the binaries from foked blockbook repo unti we introduce building of packages directly in blockbook repo
-# https://github.com/satoshilabs/devops/issues/45
+COPY --from=builder /root/bitcoin/src/bitcoind /root
+COPY --from=builder /root/bitcoin/src/bitcoin-cli /root
+COPY --from=builder /root/bitcoin/src/bitcoin-tx /root
 
-RUN wget https://github.com/vdovhanych/blockbook/releases/download/v0.3.5/backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb \
-  && dpkg -i backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb \
-  && rm backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb
+EXPOSE 18021
 
-COPY entrypoint.sh entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+ADD entrypoint.sh /root/entrypoint.sh
+RUN chmod +x /root/entrypoint.sh
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD ["/root/entrypoint.sh"]
