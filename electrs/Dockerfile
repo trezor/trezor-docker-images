@@ -21,8 +21,8 @@ USER electrs
 WORKDIR /data
 COPY --from=builder /usr/local/cargo/bin/electrs /bin/electrs
 
-ADD config.toml /etc/electrs/config.toml
-ADD entrypoint.sh entrypoint.sh
+COPY config.toml /etc/electrs/config.toml
+COPY entrypoint.sh entrypoint.sh
 RUN chmod a+x entrypoint.sh
 
 # Electrum port
