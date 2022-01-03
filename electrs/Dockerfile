@@ -15,7 +15,7 @@ RUN cargo install --locked --path .
 
 FROM debian:buster-slim
 
-RUN useradd -rG sudo --disabled-password --uid 1000 --home /data --gecos "" electrs
+RUN useradd -rG sudo electrs
 USER electrs
 
 WORKDIR /data
