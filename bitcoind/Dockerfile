@@ -1,4 +1,4 @@
-FROM debian:buster-slim as builder
+FROM debian:bullseye-slim as builder
 
 WORKDIR /root
 
@@ -26,7 +26,7 @@ RUN (cd bitcoin && git fetch --all --tags --prune && git checkout tags/$BITCOIN_
       strip src/bitcoin-cli && \
       strip src/bitcoin-tx )
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 RUN apt-get update && apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev \
     libboost-thread-dev libdb-dev libdb++-dev curl build-essential

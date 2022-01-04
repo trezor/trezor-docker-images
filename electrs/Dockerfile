@@ -1,4 +1,4 @@
-FROM debian:buster-slim as builder
+FROM debian:bullseye-slim as builder
 
 WORKDIR /root
 RUN apt-get update \
