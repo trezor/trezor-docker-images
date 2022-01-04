@@ -2,11 +2,11 @@ FROM debian:buster-slim as builder
 
 WORKDIR /root
 RUN apt-get update \
-    &&  apt-get install -y git clang cmake build-essential libtool autotools-dev \ 
-    automake pkg-config bsdmainutils python3 \
-    && apt-get install -y wget software-properties-common cargo 
+    &&  apt-get install -y clang cmake build-essential git cargo
     
-RUN cargo install --release --git https://github.com/romanz/electrs --tag v0.9.4 --bin electrs
+RUN git clone https://github.com/romanz/electrs \ 
+    && cd electrs \ 
+    && cargo build --locked --release
 
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
