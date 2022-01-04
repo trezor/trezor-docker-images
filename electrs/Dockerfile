@@ -6,7 +6,7 @@ RUN apt-get update \
     automake pkg-config bsdmainutils python3 \
     && apt-get install -y wget software-properties-common cargo 
     
-RUN cargo install --locked --release --git https://github.com/romanz/electrs --tag v0.9.4 --bin electrs
+RUN cargo install --release --git https://github.com/romanz/electrs --tag v0.9.4 --bin electrs
 
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
