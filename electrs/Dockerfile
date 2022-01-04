@@ -1,17 +1,12 @@
 FROM debian:buster-slim as builder
 
 WORKDIR /root
-
-# install electrs
-
-RUN apt-get update && \
-    apt-get install git build-essential libtool autotools-dev automake pkg-config \
-    bsdmainutils python3 -y && \
-    apt-get install -y wget software-properties-common apt-transport-https \
-    libllvm10 clang-10 libclang-common-10-dev curl cargo
+RUN apt-get update \
+    &&  apt-get install -y git clang cmake build-essential libtool autotools-dev \ 
+    automake pkg-config bsdmainutils python3 \
+    && apt-get install -y wget software-properties-common cargo 
     
-
-RUN cargo install --git https://github.com/romanz/electrs --tag v0.9.4 --bin electrs
+RUN cargo install --locked --release --git https://github.com/romanz/electrs --tag v0.9.4 --bin electrs
 
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
