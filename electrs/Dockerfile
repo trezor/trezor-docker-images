@@ -7,7 +7,7 @@ RUN apt-get update \
 RUN git clone https://github.com/romanz/electrs \ 
     && cd electrs \ 
     && cargo build --locked --release
-RUN ls -la && ls -la electrs/
+RUN ls -la && ls -la electrs/ && ls -la electrs/.cargo/bin && ls -la electrs/.cargo/
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
 COPY --from=builder /root/electrs/.cargo/bin/electrs /root
