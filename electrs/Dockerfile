@@ -6,13 +6,12 @@ RUN apt-get update \
     
 RUN git clone https://github.com/romanz/electrs \ 
     && cd electrs \ 
-    && cargo build --locked --release \
-    && cargo install --bin electrs
+    && cargo install --path /root/
 
 RUN ls -la && ls -la electrs/ && ls -la electrs/.cargo/
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
-COPY --from=builder /root/electrs/.cargo/bin/electrs /root
+COPY --from=builder /root/.cargo/bin/electrs /root
 
 RUN chmod a+rx /root
 RUN chmod a+rx /root/electrs
