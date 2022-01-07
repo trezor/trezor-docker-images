@@ -6,7 +6,7 @@ RUN apt-get update \
     
 RUN git clone https://github.com/romanz/electrs \ 
     && cd electrs \ 
-    && cargo install --path /root/
+    && cargo install --path /root/electrs
 
 RUN ls -la && ls -la electrs/ && ls -la electrs/.cargo/
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
