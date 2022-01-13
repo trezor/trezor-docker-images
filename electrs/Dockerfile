@@ -3,9 +3,9 @@ FROM debian:bullseye-slim as builder
 WORKDIR /root
 RUN apt-get update \
     &&  apt-get install -y clang cmake build-essential git cargo
-    
-RUN git clone https://github.com/romanz/electrs \ 
-    && cd electrs \ 
+
+RUN git clone --depth 1 --branch v0.9.4 https://github.com/romanz/electrs \
+    && cd electrs \
     && cargo install --path /root/electrs
 
 RUN ls -la && ls -la electrs/ && ls -la electrs/.cargo/
