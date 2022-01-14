@@ -16,7 +16,7 @@ COPY --from=builder /root/.cargo/bin/electrs /root
 RUN chmod a+rx /root
 RUN chmod a+rx /root/electrs
 
-EXPOSE 18021 60401
+EXPOSE 18021 60401 50001
 
 ADD entrypoint.sh /root/entrypoint.sh
 RUN chmod a+x /root/entrypoint.sh

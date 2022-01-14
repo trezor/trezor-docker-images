@@ -14,5 +14,5 @@ echo -e "\nGenerating 150 bitcoin blocks.\n"
 ADDR=$(/root/bitcoin-cli -regtest -datadir=/root/.bitcoin --rpccookiefile=/root/.cookie -rpcport=18021 -rpcwallet=tenv-test getnewaddress)
 /root/bitcoin-cli -regtest -datadir=/root/.bitcoin --rpccookiefile=/root/.cookie -rpcport=18021 generatetoaddress 150 $ADDR
 
-echo -e "\nStarting electrs node.\n"
-/root/electrs --log-filters INFO --db-dir /tmp/electrs-db --electrum-rpc-addr="0.0.0.0:50001" --network=regtest --cookie-file=/root/.cookie
+# echo -e "\nStarting electrs node.\n"
+/root/electrs --log-filters INFO --db-dir /tmp/electrs-db --electrum-rpc-addr="0.0.0.0:50001" --daemon-rpc-addr="0.0.0.0:18021" --network=regtest --cookie-file=/root/.cookie
