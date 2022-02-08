@@ -4,9 +4,9 @@ WORKDIR /root
 RUN apt-get update \
     &&  apt-get install -y clang cmake build-essential git cargo
 
-RUN git clone --depth 1 --branch v0.9.4 https://github.com/romanz/electrs \
+RUN git clone --depth 1 --branch v0.9.5 https://github.com/romanz/electrs \
     && cd electrs \
-    && cargo install --path /root/electrs
+    && cargo install --verbose --path /root/electrs
 
 RUN ls -la && ls -la electrs/ && ls -la electrs/.cargo/
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
