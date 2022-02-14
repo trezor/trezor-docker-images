@@ -29,7 +29,7 @@ RUN (cd bitcoin && git fetch --all --tags --prune && git checkout tags/$BITCOIN_
 FROM debian:bullseye-slim
 
 RUN apt-get update && apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev \
-    libboost-thread-dev libdb-dev libdb++-dev curl build-essential
+    libboost-thread-dev libdb-dev libdb++-dev curl build-essential librocksdb-dev=6.11.4-3
 
 COPY --from=builder /root/bitcoin/src/bitcoind /root
 COPY --from=builder /root/bitcoin/src/bitcoin-cli /root
