@@ -10,9 +10,8 @@ RUN apt-get install -qqy cargo clang cmake build-essential
 WORKDIR /build
 ENV ROCKSDB_INCLUDE_DIR=/usr/include
 ENV ROCKSDB_LIB_DIR=/usr/lib
-RUN git clone --depth 1 --branch v0.9.5 https://github.com/romanz/electrs \
-    && cd electrs
-RUN cargo install --verbose --locked --path .
+RUN git clone --depth 1 --branch v0.9.5 https://github.com/romanz/electrs 
+RUN cd electrs && cargo install --verbose --locked --path .
 
 ### Bitcoin Core ###
 FROM base as bitcoin-build
