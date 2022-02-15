@@ -31,9 +31,12 @@ FROM debian:bullseye-slim
 RUN apt-get update && apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev \
     libboost-thread-dev libdb-dev libdb++-dev curl build-essential librocksdb-dev=6.11.4-3
 
-COPY --from=builder /root/bitcoin/src/bitcoind /root
-COPY --from=builder /root/bitcoin/src/bitcoin-cli /root
-COPY --from=builder /root/bitcoin/src/bitcoin-tx /root
+ENV ROCKSDB_INCLUDE_DIR=/usr/include
+ENV ROCKSDB_LIB_DIR=/usr/lib
+
+COPY --from=builder /root/bitcoin/src/bitcoind /usr/bin/
+COPY --from=builder /root/bitcoin/src/bitcoin-cli /usr/bin/
+COPY --from=builder /root/bitcoin/src/bitcoin-tx /usr/bin/
 
 EXPOSE 18021
 
