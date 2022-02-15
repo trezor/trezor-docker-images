@@ -2,9 +2,8 @@ name: Build and push electrs_v2 to ghcr.io 🏗️ & 🚀
 
 on:
   push:
-    branches:
-      - 'master'
-
+    paths:
+    - "electrs_v2/**"
 jobs:
   docker:
     runs-on: ubuntu-latest
