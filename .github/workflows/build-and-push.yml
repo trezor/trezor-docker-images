@@ -1,9 +1,9 @@
-name: Build and push image to docker hub 🏗️ & 🚀
+name: Build and push images to ghcr.io hub 🏗️ & 🚀
 
 on:
   push:
     branches:
-      - 'master'
+      - "master"
 
 jobs:
   docker:
