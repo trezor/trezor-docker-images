@@ -13,7 +13,7 @@ RUN git clone --depth 1 --branch v0.9.5 https://github.com/romanz/electrs \
 FROM ghcr.io/vdovhanych/bitcoind-regtest:latest
 
 COPY --from=builder /root/.cargo/bin/electrs /root
-COPY --from=electrs-build /root/.cargo/bin/electrs /usr/bin/electrs
+COPY --from=builder /root/.cargo/bin/electrs /usr/bin/electrs
 
 RUN chmod a+rx /root
 RUN chmod a+rx /root/electrs
