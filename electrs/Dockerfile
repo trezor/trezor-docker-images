@@ -1,6 +1,6 @@
 FROM debian:bullseye-slim as base
 RUN apt-get update -qqy
-RUN apt-get install -qqy librocksdb-dev=6.11.4-3 wget git jq
+RUN apt-get install -qqy librocksdb-dev=6.11.4-3 wget git
 
 ### Electrum Rust Server ###
 FROM base as electrs-build
@@ -23,7 +23,11 @@ RUN tar xvf bitcoin-$BITCOIND_VERSION-x86_64-linux-gnu.tar.gz
 RUN mv -v bitcoin-$BITCOIND_VERSION/bin/bitcoind .
 RUN mv -v bitcoin-$BITCOIND_VERSION/bin/bitcoin-cli .
 
+# Final image
 FROM base as result
+RUN apt-get update -qqy
+RUN apt-get install -qqy librocksdb-dev=6.11.4-3 wget git jq
+
 # Copy the binaries
 COPY --from=electrs-build /root/.cargo/bin/electrs /usr/bin/electrs
 COPY --from=bitcoin-build /build/bitcoin/bitcoind /build/bitcoin/bitcoin-cli /usr/bin/
