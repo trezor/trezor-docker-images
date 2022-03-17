@@ -1,2 +1,7 @@
-# docker-electrs
-Electrs server in docker for testing functionality in our CI
+# trezor-docker-images
+
+This repository is for maintaining, building and hosting various docker images used across trezor projects.
+
+## electrs
+
+Electrum server connected to bitcoind running in regtest mode. 
