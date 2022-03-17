@@ -1,10 +1,11 @@
-name: Build and push image to registry 🏗️ & 🚀
+name: Build and push nix
 
 on:
   push:
     branches:
       - main
-
+    paths:
+      - "nix/*"
 jobs:
   docker:
     runs-on: ubuntu-latest

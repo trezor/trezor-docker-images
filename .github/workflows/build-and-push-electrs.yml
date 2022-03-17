@@ -1,10 +1,10 @@
-name: Build and push images to ghcr.io hub 🏗️ & 🚀
-
+name: Build and push electrs
 on:
   push:
     branches:
       - main
-
+    paths:
+      - "electrs/*"
 jobs:
   docker:
     runs-on: ubuntu-latest
