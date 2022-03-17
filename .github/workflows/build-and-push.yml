@@ -8,7 +8,6 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       -
         name: Checkout
@@ -26,14 +25,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push bitcoind
-        uses: docker/build-push-action@v2
-        with:
-          context: ./bitcoind/
-          platforms: linux/amd64
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/bitcoind-regtest:latest
+          
       -
         name: Build and push electrs
         uses: docker/build-push-action@v2
