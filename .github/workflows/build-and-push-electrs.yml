@@ -23,9 +23,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
+          username: ${{ secrets.TREZOR_BOT_USERNAME }}
+          password: ${{ secrets.TREZOR_BOT_TOKEN }}
       -
         name: Build and push electrs
         uses: docker/build-push-action@v2
