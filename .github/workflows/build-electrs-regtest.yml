@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - "electrs/**"
+  workflow_dispatch:
+
 jobs:
   build-electrs-regtest:
     runs-on: ubuntu-latest

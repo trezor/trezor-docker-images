@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - "blockbook-regtest/**"
+  workflow_dispatch:
+
 jobs:
   build-blockbook-regtest:
     runs-on: ubuntu-latest
